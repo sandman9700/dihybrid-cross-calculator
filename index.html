@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="dihybrid.css">
+    <script async src="dihybrid.js"></script>
+    <title>Punnett Square Generator</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Dihybrid Cross Solver</h1>
+        <table id="dispTable"></table>
+        <div class="input-container">
+            <input type="text" id="input1" placeholder="AaBb" maxlength="4">
+            <input type="text" id="input2" placeholder="AaBb" maxlength="4">
+            <button id="clearBtn">Clear</button>
+        </div>
+        <p id="errMsg" class="error-msg">Invalid input <b>:(</b></p>
+        <div class="allele-display">
+            <p>Allele 1: <span id="allele1"></span></p>
+            <p>Allele 2: <span id="allele2"></span></p>
+        </div>
+        <div class="result-tables">
+            <table id="genTable"></table>
+            <table id="phnTable"></table>
+        </div>
+    </div>
+</body>
+</html>
