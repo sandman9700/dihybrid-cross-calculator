@@ -2,22 +2,8 @@ window.onload = setup;
 
 function setup() {
 	const table = document.getElementById("dispTable");
-	
-	/**
-	 * Top headers
-	 * @type {HTMLElement[][]}
-	 */
 	const h1 = [];
-	/**
-	 * Side headers
-	 * @type {HTMLElement[][]}
-	 */
 	const h2 = [];
-	
-	/**
-	 * Table cells
-	 * @type {HTMLElement[][]}
-	 */
 	const cells = [];
 	
 	function genHeadCell(headArr, i) {
@@ -49,15 +35,9 @@ function setup() {
 		table.appendChild(r);
 	}
 	
-	/**
-	 * The genotype of parent 1; true = capital
-	 * @type {(?string)[]}
-	 */
+	
 	const gen1 = [null, null, null, null];
-	/**
-	 * The genotype of parent 2; true = capital
-	 * @type {(?string)[]}
-	 */
+	
 	const gen2 = [null, null, null, null];
 	
 	const in1 = document.getElementById("input1");
@@ -66,7 +46,7 @@ function setup() {
 	in2.onkeyup = genKeyUpFn(in2, gen2);
 	in1.value = "";
 	in2.value = "";
-	in1.focus();
+	//in1.focus();
 	
 	const errMsg = document.getElementById("errMsg");
 	
@@ -80,7 +60,7 @@ function setup() {
 	
 	function genKeyUpFn(domEl, genArr) {
 		return function (evt) {
-			/** {@type string} */
+			
 			const val = domEl.value.substring(0, 4);
 			for (let i = 0; i < val.length; i++) {
 				genArr[i] = val.charAt(i);
@@ -102,11 +82,7 @@ function setup() {
 		
 	}
 	
-	/**
-	 * Checks whether the input arrays contain a valid full or partial genotype
-	 *
-	 * @returns {boolean} Whether the genotype is valid
-	 */
+	
 	function checkValid() {
 		function check1Val(arr) {
 			const a = arr.filter(x => x !== null);
@@ -119,14 +95,11 @@ function setup() {
 		
 		const phen1 = [gen1[0], gen1[1], gen2[0], gen2[1]];
 		const phen2 = [gen1[2], gen1[3], gen2[2], gen2[3]];
+		console.log(phen1, phen2)
 		return check1Val(phen1) && check1Val(phen2);
 	}
 	
-	/**
-	 * Generates the actual cross itself and updates the DOM.
-	 *
-	 * Precondition: the input arrays must contain full or partial valid genotypes.
-	 */
+	
 	function updateTable() {
 		// Step 1: Sort the table by proper capitalization
 		function swapCap(arr, i0, i1) {
@@ -157,18 +130,8 @@ function setup() {
 		}
 		
 		
-		/**
-		 * A map of all generated genotypes and their frequencies
-		 *
-		 * @type {Map<String, number>}
-		 */
-		const genMap = new Map();
 		
-		/**
-		 * A map of all generated phenotypes and their frequencies
-		 *
-		 * @type {Map<String, number>}
-		 */
+		const genMap = new Map();
 		const phnMap = new Map();
 		
 		// Step 3: Fill in the cells
@@ -240,7 +203,7 @@ function setup() {
 		in1.value = "";
 		in2.value = "";
 		updateTable();
-		in1.focus();
+		//in1.focus();
 	};
 	
 }
