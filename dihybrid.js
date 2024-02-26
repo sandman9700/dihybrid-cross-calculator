@@ -2,10 +2,13 @@ window.onload = setup;
 
 function setup() {
 	const table = document.getElementById("dispTable");
+
 	const h1 = [];
-	const h2 = [];
-	const cells = [];
 	
+	const h2 = [];
+
+	const cells = [];
+
 	function genHeadCell(headArr, i) {
 		const h = document.createElement("TH");
 		headArr[i] = [];
@@ -15,7 +18,7 @@ function setup() {
 		h.appendChild(headArr[i][1]);
 		return h;
 	}
-	
+
 	// Setup the table initial state
 	const t0 = document.createElement("TR");
 	const c00 = document.createElement("TH");
@@ -34,12 +37,12 @@ function setup() {
 		}
 		table.appendChild(r);
 	}
-	
-	
+
+
 	const gen1 = [null, null, null, null];
-	
+
 	const gen2 = [null, null, null, null];
-	
+
 	const in1 = document.getElementById("input1");
 	const in2 = document.getElementById("input2");
 	in1.onkeyup = genKeyUpFn(in1, gen1);
@@ -47,20 +50,20 @@ function setup() {
 	in1.value = "";
 	in2.value = "";
 	//in1.focus();
-	
+
 	const errMsg = document.getElementById("errMsg");
-	
+
 	const alleleDisp1 = document.getElementById("allele1");
 	const alleleDisp2 = document.getElementById("allele2");
-	
+
 	const genTable = document.getElementById("genTable");
 	const phnTable = document.getElementById("phnTable");
-	
+
 	updateTable();
-	
+
 	function genKeyUpFn(domEl, genArr) {
 		return function (evt) {
-			
+
 			const val = domEl.value.substring(0, 4);
 			for (let i = 0; i < val.length; i++) {
 				genArr[i] = val.charAt(i);
@@ -79,10 +82,10 @@ function setup() {
 				errMsg.style.display = "block";
 			}
 		}
-		
+
 	}
-	
-	
+
+
 	function checkValid() {
 		function check1Val(arr) {
 			const a = arr.filter(x => x !== null);
@@ -92,14 +95,14 @@ function setup() {
 			}
 			return true;
 		}
-		
+
 		const phen1 = [gen1[0], gen1[1], gen2[0], gen2[1]];
 		const phen2 = [gen1[2], gen1[3], gen2[2], gen2[3]];
 		console.log(phen1, phen2)
 		return check1Val(phen1) && check1Val(phen2);
 	}
-	
-	
+
+
 	function updateTable() {
 		// Step 1: Sort the table by proper capitalization
 		function swapCap(arr, i0, i1) {
@@ -111,29 +114,29 @@ function setup() {
 				arr[i0] = arr[i1].toUpperCase();
 			}
 		}
-		
+
 		swapCap(gen1, 0, 1);
 		swapCap(gen1, 2, 3);
 		swapCap(gen2, 0, 1);
 		swapCap(gen2, 2, 3);
-		
+
 		// INVARIANT: The dominant allele of each genotype comes before the recessive
-		
+
 		// Step 2: Compute the headers
 		const head1 = [];
 		const head2 = [];
 		for (let i = 0; i < 4; i++) {
 			head1[i] = [gen1[Math.floor(i / 2)], gen1[2 + i % 2]];
 			head2[i] = [gen2[Math.floor(i / 2)], gen2[2 + i % 2]];
-			h1[i].forEach((x, ii) => {x.textContent = head1[i][ii]});
-			h2[i].forEach((x, ii) => {x.textContent = head2[i][ii]});
+			h1[i].forEach((x, ii) => { x.textContent = head1[i][ii] });
+			h2[i].forEach((x, ii) => { x.textContent = head2[i][ii] });
 		}
-		
-		
-		
+
+
+
 		const genMap = new Map();
 		const phnMap = new Map();
-		
+
 		// Step 3: Fill in the cells
 		cells.forEach((xx, j) => {
 			xx.forEach((x, i) => {
@@ -149,17 +152,17 @@ function setup() {
 				}
 			});
 		});
-		
+
 		// Step 4: Update the allele displays
 		const all1 = gen1[0] || gen2[0];
 		const all2 = gen1[2] || gen2[2];
-		
+
 		alleleDisp1.textContent = all1 === null ? "??" : (all1.toUpperCase() + all1.toLowerCase());
 		alleleDisp2.textContent = all2 === null ? "??" : (all2.toUpperCase() + all2.toLowerCase());
-		
+
 		// Step 5: Update the genotype and phenotype ratio displays
 		function delEl(el) {
-			while(el.lastChild){
+			while (el.lastChild) {
 				el.removeChild(el.lastChild);
 			}
 		}
@@ -167,34 +170,37 @@ function setup() {
 		delEl(phnTable);
 		appendRow("TH", "Genotype", "Ratio", genTable);
 		appendRow("TH", "Phenotype", "Ratio", phnTable);
-		
+
 		if (gen1.some(x => x === null) || gen2.some(x => x === null)) {
 			return;
 		}
-		
+
 		// Any code below here only executes if all parent genotypes have been completely entered
-		
+
 		genMap.forEach((val, key) => {
 			appendRow("TD", key, val, genTable);
 		});
 		phnMap.forEach((val, key) => {
 			appendRow("TD", key, val, phnTable);
 		});
-		
+
 		function appendRow(cellType, cell1, cell2, table) {
 			const r = document.createElement("TR");
 			const c1 = document.createElement(cellType);
 			c1.textContent = cell1;
 			const c2 = document.createElement(cellType);
-			c2.textContent = cell2;
+			if (cell2 != "Ratio")
+				c2.textContent = cell2 + ":16";
+			else
+				c2.textContent = cell2;
 			r.appendChild(c1);
 			r.appendChild(c2);
 			table.appendChild(r);
 		}
-		
+
 		// Any code below here only executes if all parent genotypes have been completely entered
 	}
-	
+
 	document.getElementById("clearBtn").onclick = function () {
 		for (let i = 0; i < 4; i++) {
 			gen1[i] = null;
@@ -205,5 +211,5 @@ function setup() {
 		updateTable();
 		//in1.focus();
 	};
-	
+
 }
