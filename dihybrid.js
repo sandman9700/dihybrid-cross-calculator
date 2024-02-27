@@ -3,9 +3,11 @@ window.onload = setup;
 function setup() {
 	const table = document.getElementById("dispTable");
 
+
 	const h1 = [];
-	
+
 	const h2 = [];
+
 
 	const cells = [];
 
@@ -190,7 +192,7 @@ function setup() {
 			c1.textContent = cell1;
 			const c2 = document.createElement(cellType);
 			if (cell2 != "Ratio")
-				c2.textContent = cell2 + ":16";
+				c2.textContent = ((cell2 / 16) * 100 ) + "% (" + cell2 + ":16)";
 			else
 				c2.textContent = cell2;
 			r.appendChild(c1);
