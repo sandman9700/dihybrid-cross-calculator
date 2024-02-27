@@ -190,7 +190,7 @@ function setup() {
 			c1.textContent = cell1;
 			const c2 = document.createElement(cellType);
 			if (cell2 != "Ratio")
-				c2.textContent = ((cell2 / 16) * 100) + "% " cell2 + ":16";
+				c2.textContent = (cell2 / 16) * 100 + "% " cell2 + ":16";
 			else
 				c2.textContent = cell2;
 			r.appendChild(c1);
