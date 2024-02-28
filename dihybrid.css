@@ -50,6 +50,8 @@ th {
 
 .input-container {
     margin-top: 20px;
+    display: flex;
+    align-content: center;
 }
 
 input {
